@@ -3,3 +3,4 @@ build
 .eslintrc.js
 commitlint.config.js
 jest.config.ts
+**/config/default.js
