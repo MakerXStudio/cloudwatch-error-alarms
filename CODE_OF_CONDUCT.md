@@ -1,4 +1,4 @@
-# Code of Conduct - {{package-name}}
+# Code of Conduct - cloudwatch-error-alarms
 
 ## Our Pledge
 

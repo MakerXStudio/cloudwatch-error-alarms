@@ -1,39 +1,9 @@
-﻿<!--- 👇 DELETE THIS SECTION 👇 -->
-# ⚠️ Attention Developers ⚠️
+# Cloudwatch Error Alarms (cloudwatch-error-alarms)
 
-Template use checklist
+CDK and lambda wrapper to send error alarms to Slack. This project inclues:
 
-- [ ] Click the 'Use this template' button in this repository
-- [ ] Check out the source code of your newly created repository
-- [ ] Run the powershell script `name-my-package.ps1`
-
-```ps1
-.\name-my-package.ps1
-or
-.\name-my-package.ps1 -PackageName "" -PackageTitle "" -PackageDescription ""
-```
-
-- [ ] Delete the `name-my-package.ps1` script
-- [ ] Add the keywords to the package.json file
-- [ ] Run `npm i` to generate a lock file
-- [ ] Add/Write your package code
-- [ ] Fill in the usage section of this file
-- [ ] Generate a NPM token and add it as actions secret using the key `NPM_TOKEN` in the repository settings on GitHub
-
-> _Note: you will need to be added to the MakerX NPM org in order to generate a token and be able to publish the package_
-
-- [ ] Create the wiki and add any additional documentation required
-- [ ] Promote 🎉 your package 🎉
-- [ ] Remove this checklist and surrounding section
-
-⚠️ It's important to remember this repository uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) in combination with [semantic-release](https://github.com/semantic-release/semantic-release) to automate package publication. Therefore, your commit messages are critical, and the build process will lint them 
-
----
-<!--- 👆 DELETE THIS SECTION 👆 -->
-
-# {{package-title}} ({{package-name}})
-
-> {{package-description}}
+A lambda that is involked by cloud watch message to send alert to Slack
+AWS CDK to deploy and configure the lambda
 
 [![npm package][npm-img]][npm-url]
 [![Build Status][build-img]][build-url]
@@ -44,26 +14,69 @@ or
 ## Install
 
 ```bash
-npm install {{package-name}} --save-dev
+npm install @makerx/cloudwatch-error-alarms --save
 ```
 
 ## Usage
 
-** 🚨 TODO 🚨 **
+This project inclues:
 
-_The usage section should be minimal. Enough to demo the package, but not overload the reader_
+- A lambda that is involked by cloud watch message to send alert to Slack
+- AWS CDK to deploy and configure the lambda
 
+```
+import { CloudWatchErrorAlarmLambda } from '@makerxstudio/cloud-watch-error-alarm'
 
-[build-img]:https://github.com/MakerXStudio/{{package-name}}/actions/workflows/release.yml/badge.svg
-[build-url]:https://github.com/MakerXStudio/{{package-name}}/actions/workflows/release.yml
-[downloads-img]:https://img.shields.io/npm/dt/@MakerXStudio/{{package-name}}
-[downloads-url]:https://www.npmtrends.com/@makerx/{{package-name}}
-[npm-img]:https://img.shields.io/npm/v/@makerx/{{package-name}}
-[npm-url]:https://www.npmjs.com/package/@makerx/{{package-name}}
-[issues-img]:https://img.shields.io/github/issues/MakerXStudio/{{package-name}}
-[issues-url]:https://github.com/MakerXStudio/{{package-name}}/issues
-[semantic-release-img]:https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
-[semantic-release-url]:https://github.com/semantic-release/semantic-release
+const lambda = new lambda.Function(...)
+
+const errorsLambda = new CloudWatchErrorAlarmLambda(this, `${id}-cloud-watch-error-alarms`, {
+  erroringFunctionName: `${erroringFunctionName}`, // The function name that caused the error, this will be included in the Slack message
+  functionName: `${id}-cloud-watch-error-alarms`, // The cloud watch error alarm lambda function name
+  slackWebhookUrl: `${slackWebhookUrl}`, // Slack webhook https://slack.com/intl/en-au/help/articles/115005265063-Incoming-webhooks-for-Slack
+  errorFilterRegex: props.errorFilterRegex, // Regex to ignore error messages
+})
+
+// Allow cloud watch to trigger the alarm lambda on error
+lambda.logGroup.addSubscriptionFilter(`${id}-cloud-watch-error-alarms-subscription`, {
+  destination: new destinations.LambdaDestination(errorsLambda),
+  filterPattern: FilterPattern.stringValue('$.level', '=', 'error'),
+})
+```
+
+## For developers
+
+### Structure
+
+**`index.ts`**  
+is the entry point of the packaage
+
+**`infrastructure.ts`**  
+contains AWS CDK to configure the error alarm lambda
+
+**`lambda` folder**  
+Standalone package that has everything needed for the AWS lambda:
+
+- it's own `package.json`
+- build script to produce a package that can be deploy to AWS lambda and run
+
+### How the build works
+
+At the root level, `npm run build` does:
+
+- Run build for the lambda then copy the output to `./build`
+- Run `tsc` for `index.ts` and `infrastructure.ts` into `./build`
+  The `build` folder in the content of the NPM package.
+
+[build-img]: https://github.com/MakerXStudio/cloudwatch-error-alarms/actions/workflows/release.yml/badge.svg
+[build-url]: https://github.com/MakerXStudio/cloudwatch-error-alarms/actions/workflows/release.yml
+[downloads-img]: https://img.shields.io/npm/dt/@MakerXStudio/cloudwatch-error-alarms
+[downloads-url]: https://www.npmtrends.com/@makerx/cloudwatch-error-alarms
+[npm-img]: https://img.shields.io/npm/v/@makerx/cloudwatch-error-alarms
+[npm-url]: https://www.npmjs.com/package/@makerx/cloudwatch-error-alarms
+[issues-img]: https://img.shields.io/github/issues/MakerXStudio/cloudwatch-error-alarms
+[issues-url]: https://github.com/MakerXStudio/cloudwatch-error-alarms/issues
+[semantic-release-img]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
+[semantic-release-url]: https://github.com/semantic-release/semantic-release
 
 ---
 

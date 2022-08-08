@@ -4,7 +4,7 @@ module.exports = {
   plugins: ['@typescript-eslint', 'node', 'prettier'],
   parserOptions: {
     tsconfigRootDir: __dirname,
-    project: ['./tsconfig.json'],
+    project: ['./tsconfig.json', './src/lambda/tsconfig.json'],
     sourceType: 'module',
   },
   env: {
@@ -21,7 +21,6 @@ module.exports = {
   rules: {
     'prettier/prettier': 'warn',
     'node/no-missing-import': 'off',
-    "no-console": "warn",
     'node/no-unsupported-features/es-syntax': ['error', { ignores: ['modules'] }],
   },
 }

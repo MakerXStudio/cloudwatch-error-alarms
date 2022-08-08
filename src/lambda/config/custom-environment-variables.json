@@ -1,0 +1,9 @@
+{
+  "errorAlarms": {
+    "functionName": "FUNCTION_NAME",
+    "slackWebhookUrl": "SLACK_WEBHOOK_URL",
+    "awsRegion": "AWS_REGION",
+    "awsDefaultRegion": "AWS_DEFAULT_REGION",
+    "errorFilterRegex": "ERROR_FILTER_REGEX"
+  }
+}
