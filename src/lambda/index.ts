@@ -1,10 +1,10 @@
 import { CloudWatchLogsEvent, CloudWatchLogsDecodedData, CloudWatchLogsHandler } from 'aws-lambda'
 import { gunzip } from 'zlib'
 import { request } from 'https'
-import { get } from 'config'
+import config from 'config'
 
 export const handler: CloudWatchLogsHandler = async ({ awslogs }: CloudWatchLogsEvent) => {
-  const errorAlarmsConfigs = get<Config>('errorAlarms')
+  const errorAlarmsConfigs = config.get<Config>('errorAlarms')
 
   if (!errorAlarmsConfigs.slackWebhookUrl) {
     console.log('No slack webhook URL configured; bailing...')
@@ -44,12 +44,12 @@ const sendToSlack = async (errorAlarmsConfigs: Config, logData: CloudWatchLogsDe
   const errorMessageSections = [
     ...logData.logEvents
       .filter((logEvent) => {
-        const shouldIgnore = !errorAlarmsConfigs.errorFilter || !logEvent.message.match(errorAlarmsConfigs.errorFilter)
-        if (shouldIgnore) {
+        const matchedFilter = errorAlarmsConfigs.errorFilters.find((filter) => !logEvent.message.match(filter))
+        if (matchedFilter) {
           // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-          console.log(`${errorAlarmsConfigs.errorFilter} matched log entry. Not sending alert for ${logEvent.message}`)
+          console.log(`${matchedFilter} matched log entry. Not sending alert for ${logEvent.message}`)
         }
-        return shouldIgnore
+        return !!matchedFilter
       })
       .map((logEvent, index) => ({
         type: 'section',
@@ -123,5 +123,5 @@ type Config = {
   functionName: string
   slackWebhookUrl: string
   region: string
-  errorFilter?: RegExp
+  errorFilters: RegExp[]
 }

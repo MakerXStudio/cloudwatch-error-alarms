@@ -6,7 +6,6 @@ module.exports = {
     slackWebhookUrl: undefined,
     awsRegion: undefined,
     awsDefaultRegion: undefined,
-    errorFilterRegex: undefined,
     region: defer(function (cfg) {
       const region = cfg.errorAlarms.awsRegion ? cfg.errorAlarms.awsRegion : cfg.errorAlarms.awsDefaultRegion
       if (!region) {
@@ -14,8 +13,10 @@ module.exports = {
       }
       return region
     }),
-    errorFilter: defer(function (cfg) {
-      return cfg.errorAlarms.errorFilterRegex ? new RegExp(cfg.errorAlarms.errorFilterRegex) : undefined
+    errorFilters: defer(function () {
+      return Object.keys(process.env)
+        .filter((key) => key.match(/^ERROR_FILTER_REGEX_/) && process.env[key])
+        .map((key) => process.env[key])
     }),
   },
 }

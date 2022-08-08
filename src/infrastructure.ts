@@ -9,9 +9,9 @@ export class CloudWatchErrorAlarmLambda extends Function {
       SLACK_WEBHOOK_URL: props.slackWebhookUrl,
       FUNCTION_NAME: props.erroringFunctionName,
     }
-    if (props.errorFilterRegex) {
-      environment.ERROR_FILTER_REGEX = props.errorFilterRegex
-    }
+    props.errorFilterRegexes?.forEach((filter, index) => {
+      environment[`ERROR_FILTER_REGEX_${index + 1}`] = filter
+    })
 
     const pathToLambda = path.join(__dirname, 'lambda')
     super(scope, id, {
@@ -31,5 +31,5 @@ export type CloudWatchErrorAlarmLambdaProps = {
   slackWebhookUrl: string
   functionName: string
   erroringFunctionName: string
-  errorFilterRegex?: string
+  errorFilterRegexes?: string[]
 }

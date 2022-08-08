@@ -19,8 +19,8 @@
     "url": "https://github.com/MakerXStudio/cloudwatch-error-alarms/issues"
   },
   "homepage": "https://github.com/MakerXStudio/cloudwatch-error-alarms#readme",
-  "types": "build/src/index.d.ts",
-  "main": "build/src/index.js",
+  "types": "build/index.d.ts",
+  "main": "build/index.js",
   "files": [
     "build/**/*"
   ],
