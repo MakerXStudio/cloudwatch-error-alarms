@@ -25,7 +25,7 @@
     "build/**/*"
   ],
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest --coverage --passWithNoTests",
     "test:watch": "jest --watch",
     "build": "npm run clean && npm run build:lambda && tsc",
     "build:lambda": "npm run build --prefix ./src//lambda && copyfiles -u 3 \"./src/lambda/build/**/*\" ./build/lambda",

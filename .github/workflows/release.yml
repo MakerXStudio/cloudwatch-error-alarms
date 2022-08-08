@@ -41,7 +41,7 @@ jobs:
         run: npm run build
 
       - name: Run tests
-        run: npm test --passWithNoTests
+        run: npm test
 
       - name: Release package
         env:
