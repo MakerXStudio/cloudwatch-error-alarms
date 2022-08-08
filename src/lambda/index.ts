@@ -44,12 +44,12 @@ const sendToSlack = async (errorAlarmsConfigs: Config, logData: CloudWatchLogsDe
   const errorMessageSections = [
     ...logData.logEvents
       .filter((logEvent) => {
-        const matchedFilter = errorAlarmsConfigs.errorFilters.find((filter) => !logEvent.message.match(filter))
+        const matchedFilter = errorAlarmsConfigs.errorFilters.find((filter) => logEvent.message.match(filter))
         if (matchedFilter) {
           // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           console.log(`${matchedFilter} matched log entry. Not sending alert for ${logEvent.message}`)
         }
-        return !!matchedFilter
+        return !matchedFilter
       })
       .map((logEvent, index) => ({
         type: 'section',
