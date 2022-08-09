@@ -2,8 +2,8 @@
 
 CDK and lambda wrapper to send error alarms to Slack. This project inclues:
 
-A lambda that is involked by cloud watch message to send alert to Slack
-AWS CDK to deploy and configure the lambda
+- A lambda that is involked by cloud watch message to send alert to Slack
+- AWS CDK to deploy and configure the lambda
 
 [![npm package][npm-img]][npm-url]
 [![Build Status][build-img]][build-url]
@@ -19,10 +19,7 @@ npm install @makerx/cloudwatch-error-alarms --save
 
 ## Usage
 
-This project inclues:
-
-- A lambda that is involked by cloud watch message to send alert to Slack
-- AWS CDK to deploy and configure the lambda
+In your CDK stack, create the lambda with `CloudWatchErrorAlarmLambda` and subscribe it to the log group for error level messages.
 
 ```
 import { CloudWatchErrorAlarmLambda } from '@makerxstudio/cloud-watch-error-alarm'
