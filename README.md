@@ -76,9 +76,3 @@ At the root level, `npm run build` does:
 [issues-url]: https://github.com/MakerXStudio/cloudwatch-error-alarms/issues
 [semantic-release-img]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
 [semantic-release-url]: https://github.com/semantic-release/semantic-release
-
----
-
-**Attribution**
-
-This template was based on the great work of [Ryan Sonshine](https://github.com/ryansonshine/typescript-npm-package-template)

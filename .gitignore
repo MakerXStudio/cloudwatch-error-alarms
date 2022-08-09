@@ -39,3 +39,7 @@ build/
 
 # Coverage report
 coverage
+
+# Docs and website generation
+code-docs
+out
