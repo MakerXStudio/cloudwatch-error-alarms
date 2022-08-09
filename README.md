@@ -33,7 +33,9 @@ const errorsLambda = new CloudWatchErrorAlarmLambda(this, `${id}-cloud-watch-err
   erroringFunctionName: `${erroringFunctionName}`, // The function name that caused the error, this will be included in the Slack message
   functionName: `${id}-cloud-watch-error-alarms`, // The cloud watch error alarm lambda function name
   slackWebhookUrl: `${slackWebhookUrl}`, // Slack webhook https://slack.com/intl/en-au/help/articles/115005265063-Incoming-webhooks-for-Slack
-  errorFilterRegex: props.errorFilterRegex, // Regex to ignore error messages
+  errorFilterRegexes: [
+    // Regex to ignore error messages
+  ],
 })
 
 // Allow cloud watch to trigger the alarm lambda on error
