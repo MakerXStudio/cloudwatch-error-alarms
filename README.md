@@ -2,7 +2,7 @@
 
 CDK and lambda wrapper to send error alarms to Slack. This project inclues:
 
-- A lambda that is involked by cloud watch message to send alert to Slack
+- A lambda that is invoked by cloud watch message to send alert to Slack
 - AWS CDK to deploy and configure the lambda
 
 [![npm package][npm-img]][npm-url]
