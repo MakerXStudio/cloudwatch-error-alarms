@@ -22,10 +22,14 @@ npm install @makerx/cloudwatch-error-alarms --save
 In your CDK stack, create the lambda with `CloudWatchErrorAlarmLambda` and subscribe it to the log group for error level messages.
 
 ```
-import { CloudWatchErrorAlarmLambda } from '@makerxstudio/cloud-watch-error-alarm'
+import { CloudWatchErrorAlarmLambda } from '@makerx/cloudwatch-error-alarms'
+import * as destinations from 'aws-cdk-lib/aws-logs-destinations'
+import { FilterPattern } from 'aws-cdk-lib/aws-logs'
 
+// My lambda to monitor
 const lambda = new lambda.Function(...)
 
+// Set up error lambda to post to Slack
 const errorsLambda = new CloudWatchErrorAlarmLambda(this, `${id}-cloud-watch-error-alarms`, {
   erroringFunctionName: lambda.functionName,
   functionName: `${id}-cloud-watch-error-alarms`, // The cloud watch error alarm lambda function name
