@@ -28,7 +28,7 @@
     "test": "jest --coverage --passWithNoTests",
     "test:watch": "jest --watch",
     "build": "npm run clean && npm run build:lambda && tsc",
-    "build:lambda": "npm run build --prefix ./src//lambda && copyfiles -u 3 \"./src/lambda/build/**/*\" ./build/lambda",
+    "build:lambda": "npm run build --prefix ./src/lambda && copyfiles -u 3 \"./src/lambda/build/**/*\" ./build/lambda",
     "clean": "rimraf build",
     "semantic-release": "semantic-release",
     "lint": "eslint ./src/ --ext .ts",
@@ -36,7 +36,7 @@
     "commitlint": "commitlint --edit -o",
     "prepare": "husky install",
     "generate-doc": "typedoc",
-    "generate-website":"npm run generate-doc && npx repository-website-generator",
+    "generate-website": "npm run generate-doc && npx repository-website-generator",
     "serve-generated-website": "http-server -c-1 ./out"
   },
   "repository": {
@@ -46,17 +46,14 @@
   "engines": {
     "node": ">=16.0"
   },
-  "peeprDependencies": {},
   "dependencies": {
     "aws-cdk-lib": "^2.35.0",
-    "aws-sdk": "^2.1178.0",
     "constructs": "^10.1.70"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",
     "@commitlint/config-conventional": "^17.0.2",
     "@types/aws-lambda": "^8.10.101",
-    "@types/aws-sdk": "^2.7.0",
     "@types/jest": "^28.1.1",
     "@types/node": "^18.6.4",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
