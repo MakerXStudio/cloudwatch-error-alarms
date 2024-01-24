@@ -7,8 +7,9 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-
     name: Release package to NPM
+    permissions:
+      contents: write
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
