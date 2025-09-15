@@ -34,7 +34,6 @@
     "lint": "eslint ./src/ --ext .ts",
     "lint:fix": "eslint ./src/ --ext .ts --fix",
     "commitlint": "commitlint --edit -o",
-    "prepare": "husky install",
     "generate-doc": "typedoc",
     "generate-website": "npm run generate-doc && npx repository-website-generator",
     "serve-generated-website": "http-server -c-1 ./out"
@@ -65,7 +64,6 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^8.0.1",
     "jest": "^28.1.1",
     "prettier": "^2.7.0",
     "rimraf": "^3.0.2",
