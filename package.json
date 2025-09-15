@@ -27,6 +27,7 @@
   "scripts": {
     "test": "jest --coverage --passWithNoTests",
     "test:watch": "jest --watch",
+    "audit": "better-npm-audit audit",
     "build": "npm run clean && npm run build:lambda && tsc",
     "build:lambda": "npm run build --prefix ./src/lambda && copyfiles -u 3 \"./src/lambda/build/**/*\" ./build/lambda",
     "clean": "rimraf build",
@@ -55,6 +56,7 @@
     "@types/node": "^22.18.3",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
+    "better-npm-audit": "^3.11.0",
     "conventional-changelog-conventionalcommits": "^5.0.0",
     "copyfiles": "^2.4.1",
     "eslint": "^8.17.0",
