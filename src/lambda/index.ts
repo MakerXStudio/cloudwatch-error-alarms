@@ -1,3 +1,4 @@
+// eslint-disable-next-line n/no-missing-import
 import { CloudWatchLogsEvent, CloudWatchLogsDecodedData, CloudWatchLogsHandler } from 'aws-lambda'
 import { gunzip } from 'zlib'
 import { request } from 'https'
@@ -28,7 +29,7 @@ export const handler: CloudWatchLogsHandler = async ({ awslogs }: CloudWatchLogs
       } else {
         resolve(JSON.parse(result.toString()) as CloudWatchLogsDecodedData)
       }
-    })
+    }),
   )
 
   await sendToSlack(errorAlarmsConfigs, logData)
@@ -38,7 +39,7 @@ const sendToSlack = async (errorAlarmsConfigs: Config, logData: CloudWatchLogsDe
   const region = errorAlarmsConfigs.region
   const erroringLambdaFunctionName = errorAlarmsConfigs.functionName
   const displayLogURL = `https://${region}.console.aws.amazon.com/cloudwatch/home?region=${region}#logsV2:log-groups/log-group/$252Faws$252Flambda$252F${erroringLambdaFunctionName}/log-events/${encodeURIComponent(
-    logData.logStream || ''
+    logData.logStream || '',
   )}`
 
   const errorMessageSections = [
@@ -46,7 +47,6 @@ const sendToSlack = async (errorAlarmsConfigs: Config, logData: CloudWatchLogsDe
       .filter((logEvent) => {
         const matchedFilter = errorAlarmsConfigs.errorFilters.find((filter) => logEvent.message.match(filter))
         if (matchedFilter) {
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           console.log(`${matchedFilter} matched log entry. Not sending alert for ${logEvent.message}`)
         }
         return !matchedFilter
@@ -57,7 +57,6 @@ const sendToSlack = async (errorAlarmsConfigs: Config, logData: CloudWatchLogsDe
         text: {
           type: 'mrkdwn',
           text:
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             `*Time*: ${new Date(logEvent.timestamp)}\n` +
             `*Log Link*: ${displayLogURL}\n` +
             `*Message*:\n \`\`\`${logEvent.message}\`\`\`\n`,
@@ -110,7 +109,7 @@ const sendToSlack = async (errorAlarmsConfigs: Config, logData: CloudWatchLogsDe
         if (res.statusCode) {
           reject(`${res.statusCode}: ${res.statusMessage ?? ''}`)
         }
-      }
+      },
     )
 
     req.on('error', (e) => reject(e))
