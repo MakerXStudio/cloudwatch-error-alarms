@@ -5,39 +5,11 @@ on:
     branches: ['main']
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-
-    name: Build and test with Node ${{ matrix.node-version }}
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          # == Cache frequently built and/or with large dependencies ==
-          # == Eviction policy: not accessed in over 7 days
-          # == Limit: 10 GB
-          # cache: 'npm'
-          # == Path to lock file when using mono repos ==
-          # cache-dependency-path: subdir/package-lock.json
-
-      - name: Restore packages
-        run: npm ci && npm ci --prefix ./src/lambda
-
-      - name: Lint commit messages
-        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
-
-      - name: Build package
-        run: npm run build
-
-      - name: Run tests
-        run: npm test
+  pull_request:
+    uses: makerxstudio/shared-config/.github/workflows/node-ci.yml@main
+    with:
+      node-version: lts/*
+      working-directory: ./
+      run-commit-lint: true
+      run-build: true
+      pre-run-script: npm ci --prefix ./src/lambda
