@@ -83,11 +83,14 @@
           "releaseRules": [
             {
               "type": "build",
-              "scope": "deps",
               "release": "patch"
             },
             {
               "type": "chore",
+              "release": "patch"
+            },
+            {
+              "type": "refactor",
               "release": "patch"
             }
           ]
@@ -111,13 +114,33 @@
                 "type": "build",
                 "section": "Dependencies and Other Build Updates",
                 "hidden": false
+              },
+              {
+                "type": "refactor",
+                "section": "Code Refactoring"
               }
             ]
           }
         }
       ],
-      "@semantic-release/npm",
-      "@semantic-release/github"
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "dist",
+          "tarballDir": "build"
+        }
+      ],
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            {
+              "path": "build/*.tgz",
+              "label": "package"
+            }
+          ]
+        }
+      ]
     ]
   }
 }
