@@ -19,7 +19,7 @@ export class CloudWatchErrorAlarmLambda extends Function {
       functionName: props.functionName,
       handler: 'index.handler',
       memorySize: 128,
-      runtime: Runtime.NODEJS_16_X,
+      runtime: Runtime.NODEJS_22_X,
       timeout: Duration.seconds(60),
       retryAttempts: 2,
       environment: environment,
