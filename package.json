@@ -129,7 +129,7 @@
       [
         "@semantic-release/npm",
         {
-          "tarballDir": "build"
+          "tarballDir": "pkg-build"
         }
       ],
       [
@@ -137,7 +137,7 @@
         {
           "assets": [
             {
-              "path": "build/*.tgz",
+              "path": "pkg-build/*.tgz",
               "label": "package"
             }
           ]
