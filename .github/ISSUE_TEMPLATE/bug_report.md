@@ -1,27 +1,22 @@
 ---
-name: "🐛 Bug Report"
+name: '🐛 Bug Report'
 about: Report a reproducible bug or regression.
 title: ''
 labels: bug
 assignees: ''
-
 ---
 
-## Current Behavior
+## Issue
 
-<!-- Describe how the issue manifests -->
+<!-- What is happening? -->
 
-## Expected Behavior
+## Steps to Reproduce
 
-<!-- Describe what the desired behaviour would be -->
-
-## Steps to Reproduce the Problem
-
-  1.
-  2.
+1.
+2.
 
 ## Environment
 
-- Version: <!-- Version set in package.json -->
-- Platform: <!-- Win/Mac/Linux -->
-- Node.js Version: <!-- Output of running `node -v` -->
+- Version: <!-- Version in package.json -->
+- OS: <!-- Win/Mac/Linux -->
+- Node.js: <!-- `node -v` -->

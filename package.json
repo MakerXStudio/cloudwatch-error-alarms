@@ -25,57 +25,54 @@
     "build/**/*"
   ],
   "scripts": {
-    "test": "jest --coverage --passWithNoTests",
-    "test:watch": "jest --watch",
+    "audit": "better-npm-audit audit",
     "build": "npm run clean && npm run build:lambda && tsc",
     "build:lambda": "npm run build --prefix ./src/lambda && copyfiles -u 3 \"./src/lambda/build/**/*\" ./build/lambda",
     "clean": "rimraf build",
-    "semantic-release": "semantic-release",
-    "lint": "eslint ./src/ --ext .ts",
-    "lint:fix": "eslint ./src/ --ext .ts --fix",
-    "commitlint": "commitlint --edit -o",
-    "prepare": "husky install",
-    "generate-doc": "typedoc",
-    "generate-website": "npm run generate-doc && npx repository-website-generator",
-    "serve-generated-website": "http-server -c-1 ./out"
+    "test": "jest --coverage --passWithNoTests",
+    "test:watch": "jest --watch",
+    "check-types": "tsc --noEmit",
+    "format:fix": "prettier --write ./src/",
+    "lint": "eslint ./src/",
+    "lint:commit": "commitlint --edit -o",
+    "lint:fix": "eslint ./src/ --fix",
+    "pre-commit": "run-s check-types lint:fix audit format:fix test generate:code-docs",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MakerXStudio/cloudwatch-error-alarms.git"
   },
   "engines": {
-    "node": ">=16.0"
+    "node": ">=22"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.35.0",
-    "constructs": "^10.1.70"
+    "aws-cdk-lib": "^2.214.0",
+    "constructs": "^10.4.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.0.2",
-    "@commitlint/config-conventional": "^17.0.2",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@makerx/prettier-config": "2.0.1",
     "@types/aws-lambda": "^8.10.101",
-    "@types/jest": "^28.1.1",
-    "@types/node": "^18.6.4",
-    "@typescript-eslint/eslint-plugin": "^5.28.0",
-    "@typescript-eslint/parser": "^5.28.0",
-    "@makerx/repository-website-generator": "^1.5.0",
+    "@types/jest": "^30.0.0",
+    "@tsconfig/node22": "^22.0.2",
+    "@types/node": "^22.18.3",
+    "better-npm-audit": "^3.11.0",
     "conventional-changelog-conventionalcommits": "^5.0.0",
     "copyfiles": "^2.4.1",
-    "eslint": "^8.17.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^8.0.1",
-    "jest": "^28.1.1",
-    "prettier": "^2.7.0",
-    "rimraf": "^3.0.2",
-    "semantic-release": "^19.0.3",
-    "ts-jest": "^28.0.5",
-    "ts-node": "^10.8.1",
-    "typescript": "^4.7.4",
-    "typedoc": "^0.23.8",
-    "typedoc-plugin-markdown": "^3.13.3",
-    "http-server": "^14.1.1"
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-n": "^17.22.0",
+    "jest": "^30.1.3",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "semantic-release": "^24.2.8",
+    "ts-jest": "^29.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.43.0"
   },
   "release": {
     "branches": [
@@ -89,11 +86,14 @@
           "releaseRules": [
             {
               "type": "build",
-              "scope": "deps",
               "release": "patch"
             },
             {
               "type": "chore",
+              "release": "patch"
+            },
+            {
+              "type": "refactor",
               "release": "patch"
             }
           ]
@@ -117,13 +117,32 @@
                 "type": "build",
                 "section": "Dependencies and Other Build Updates",
                 "hidden": false
+              },
+              {
+                "type": "refactor",
+                "section": "Code Refactoring"
               }
             ]
           }
         }
       ],
-      "@semantic-release/npm",
-      "@semantic-release/github"
+      [
+        "@semantic-release/npm",
+        {
+          "tarballDir": "build"
+        }
+      ],
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            {
+              "path": "build/*.tgz",
+              "label": "package"
+            }
+          ]
+        }
+      ]
     ]
   }
 }
