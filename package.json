@@ -33,7 +33,6 @@
     "test:watch": "jest --watch",
     "check-types": "tsc --noEmit",
     "format:fix": "prettier --write ./src/",
-    "generate:code-docs": "typedoc",
     "lint": "eslint ./src/",
     "lint:commit": "commitlint --edit -o",
     "lint:fix": "eslint ./src/ --fix",
