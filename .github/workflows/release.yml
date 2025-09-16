@@ -57,8 +57,8 @@ jobs:
       - name: Unzip package
         shell: bash
         run: |
-          mkdir -p dist
-          unzip -q "artifacts/package.zip" -d dist
+          mkdir -p build
+          unzip -q "artifacts/package.zip" -d build
 
       - name: Install dependencies to get semantic release components and plugins
         run: npm ci --ignore-scripts
