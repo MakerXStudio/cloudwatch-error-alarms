@@ -8,7 +8,7 @@
     "clean": "rimraf build"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudwatch-logs": "^3.888.0",
+    "@aws-sdk/client-cloudwatch-logs": "^3.987.0",
     "config": "^4.1.1"
   },
   "engines": {
